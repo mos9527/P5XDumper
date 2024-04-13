@@ -10,7 +10,7 @@ internal class UnityBundleHeader
     public string Signature = BundleConverter.BundleSignature;
     public uint Version = 6;
     public string UnityVersion = "5.x.x";
-    public string UnityRevision = "2018.4.18f1";
+    public string UnityRevision = "2022.3.12f1";
     public ulong Size;
     public uint CompressedBlocksInfoSize;
     public uint UncompressedBlocksInfoSize;

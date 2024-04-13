@@ -4,19 +4,28 @@ namespace AresChroniclesDumper;
 
 static class Program
 {
-    private const string OutputFolder = "Dump";
-    private const string AssetFolder = @"zskrpc_Data\StreamingAssets\";
+    private static string OutputFolder;
+    private static string ClientFolder;
 
-    public static void Main()
+    public static void Main(string[] argv)
     {
-#if DEBUG
-        Directory.SetCurrentDirectory(@"C:\zsyjkr\client");
-#endif
+        if (argv.Length == 2)
+        {
+            OutputFolder = argv[0];
+            ClientFolder = argv[1];
+        } else
+        {
+            Console.WriteLine("Usage: P5XDumper [OutputFolder] [ClientFolder]");
+            return;
+        }
+
+        Console.WriteLine($"Output Folder: {OutputFolder}");
+        Console.WriteLine($"Client Folder: {ClientFolder}");
 
         if (CheckForRequirements())
         {
             DumpInnerPackageAssets();
-            DumpOuterPackageAssets();
+            // DumpOuterPackageAssets();
         }
 
         Console.WriteLine("Press any key to exit...");
@@ -25,13 +34,8 @@ static class Program
 
     private static bool CheckForRequirements()
     {
-        if (!Directory.Exists(AssetFolder))
-        {
-            Console.WriteLine($"[ERROR] Unable to locate the \"{AssetFolder}\" folder.");
-            return false;
-        }
 
-        if (!File.Exists(Path.Combine(AssetFolder, ZeusFileSystem.VFileIndex)))
+        if (!File.Exists(Path.Combine(ClientFolder, "bin", ZeusFileSystem.VFileIndex)))
         {
             Console.WriteLine($"[ERROR] Unable to locate the \"{ZeusFileSystem.VFileIndex}\" file.");
             return false;
@@ -46,7 +50,7 @@ static class Program
     /// </summary>
     private static void DumpInnerPackageAssets()
     {
-        using var fileSystem = new ZeusFileSystem(AssetFolder);
+        using var fileSystem = new ZeusFileSystem(Path.Combine(ClientFolder, "bin"));
 
         fileSystem.LoadVFileEntrysFromFB();
 
@@ -62,7 +66,7 @@ static class Program
         }
     }
 
-    /// <summary>
+    /// <summary>    
     /// Outer Package Assets refer to those downloaded
     /// via updates and hotfixes
     /// </summary>
@@ -106,6 +110,9 @@ static class Program
         fs.Flush();
 
         if (BundleConverter.IsAresBundle(fs))
+        {
+            Console.WriteLine($"Converting Ares Bundle {fileEntry} to Unity Bundle...");
             BundleConverter.ConvertAresToUnity(fs);
+        }
     }
 }
