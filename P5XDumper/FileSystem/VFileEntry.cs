@@ -1,4 +1,4 @@
-﻿namespace AresChroniclesDumper.FileSystem;
+﻿namespace P5XDumper.FileSystem;
 
 public struct VFileEntry
 {

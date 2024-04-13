@@ -1,6 +1,6 @@
-﻿using AresChroniclesDumper.FileSystem;
+﻿using P5XDumper.FileSystem;
 
-namespace AresChroniclesDumper;
+namespace P5XDumper;
 
 static class Program
 {
@@ -15,7 +15,7 @@ static class Program
             ClientFolder = argv[1];
         } else
         {
-            Console.WriteLine("Usage: P5XDumper [OutputFolder] [ClientFolder]");
+            Console.WriteLine("Usage: P5XDumper [dump output path] ['Client' folder path]");
             return;
         }
 
@@ -109,10 +109,15 @@ static class Program
         stream.CopyTo(fs);
         fs.Flush();
 
-        if (BundleConverter.IsAresBundle(fs))
+        if (BundleConverter.IsAresBundle(fs)) /* unused */
         {
             Console.WriteLine($"Converting Ares Bundle {fileEntry} to Unity Bundle...");
             BundleConverter.ConvertAresToUnity(fs);
+        }
+
+        if (BundleConverter.IsUnityBundle(fs))
+        {
+            BundleConverter.UnityFSHeaderFix(fs);
         }
     }
 }

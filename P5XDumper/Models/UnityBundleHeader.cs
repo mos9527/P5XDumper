@@ -1,4 +1,4 @@
-﻿namespace AresChroniclesDumper.Models;
+﻿namespace P5XDumper.Models;
 
 /// <summary>
 /// Header structure of Unity's asset bundle

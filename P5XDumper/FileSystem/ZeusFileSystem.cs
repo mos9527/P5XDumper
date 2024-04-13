@@ -1,6 +1,6 @@
 ﻿using FlatBuffers;
 
-namespace AresChroniclesDumper.FileSystem;
+namespace P5XDumper.FileSystem;
 
 internal class ZeusFileSystem : IDisposable
 {

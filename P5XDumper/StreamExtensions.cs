@@ -1,7 +1,7 @@
 ﻿using System.Buffers.Binary;
 using System.Text;
 
-namespace AresChroniclesDumper;
+namespace P5XDumper;
 
 public static class StreamExtensions
 {

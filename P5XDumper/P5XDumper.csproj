@@ -5,7 +5,7 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
-    <StartupObject>AresChroniclesDumper.Program</StartupObject>
+    <StartupObject>P5XDumper.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,6 +18,7 @@
   
   <PropertyGroup>
     <PublishTrimmed>true</PublishTrimmed>
+    <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
   </PropertyGroup>
 
 </Project>

@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "AresChroniclesDumper": {
+    "P5XDumper": {
       "commandName": "Project",
       "commandLineArgs": "C:\\Users\\mos9527\\Downloads\\P5X\\Dump C:\\Users\\mos9527\\Downloads\\P5X\\Client"
     }

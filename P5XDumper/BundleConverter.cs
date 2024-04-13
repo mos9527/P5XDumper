@@ -1,6 +1,6 @@
-﻿using AresChroniclesDumper.Models;
+﻿using P5XDumper.Models;
 
-namespace AresChroniclesDumper;
+namespace P5XDumper;
 
 internal static class BundleConverter
 {
@@ -31,8 +31,7 @@ internal static class BundleConverter
 
         var header = new UnityBundleHeader(stream);
 
-        return header.Signature == BundleSignature &&
-            header.Size == (ulong)stream.Length;
+        return header.Signature == BundleSignature;
     }
 
     public static void ConvertAresToUnity(Stream stream)
@@ -97,6 +96,41 @@ internal static class BundleConverter
         ms.WriteTo(stream);
     }
 
+    /// <summary>
+    /// Find the last 'UnityFS' occurence from the first 128 bytes and truncates
+    /// everything before it.    
+    /// </summary>
+    /// <param name="stream"></param>
+    public static void UnityFSHeaderFix(Stream stream)
+    {
+        byte[] hdr = new byte[128];
+        stream.Seek(0, SeekOrigin.Begin);
+        stream.Read(hdr, 0, hdr.Length);
+        int ans = 0;
+        for (int i = 0; i < hdr.Length - BundleSignature.Length; i++)
+        {
+            bool dirty = false;
+            for (int j = 0; j < BundleSignature.Length; j++)
+            {
+                if ((byte)BundleSignature[j] != hdr[i + j])
+                {
+                    i = i + j;
+                    dirty = true;
+                    break;
+                }
+            }
+            if (!dirty)
+                ans = Math.Max(i, ans);
+        }
+        var ms = new MemoryStream((int)stream.Length - ans);
+
+        stream.Seek(ans, SeekOrigin.Begin);
+        stream.CopyTo(ms);
+        stream.Seek(0, SeekOrigin.Begin);
+        stream.SetLength((int)ms.Length);
+        ms.WriteTo(stream);
+        
+    }
     /// <summary>
     /// Converts a AresBundleHeader to a UnityBundleHeader
     /// </summary>
