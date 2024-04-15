@@ -15,3 +15,27 @@ Unity 2022.3.12f1
 
 # Credit
 https://github.com/barncastle/AresChroniclesDumper
+
+# Addendum
+## 收集 .bundle 文件所需依赖
+游戏内资源存储并不集中，读取单个`bundle`会不可避免地设计到其他依赖
+
+同时，利用现存工具([AssetStudio](https://github.com/Perfare/AssetStudio),[AssetRipper](https://github.com/AssetRipper/AssetRipper)) 读取全部数据会不可避免地造成 OOM 问题
+
+本项目附[CabCollector.py](https://github.com/mos9527/P5XDumper/blob/master/CabCollector.py)可以做到搜集某个`bundle`（包括自身）的所有依赖，最小化读取成本
+
+### 使用
+- 安装依赖
+```bash
+pip install UnityPy
+```
+- 构造CAB依赖图cache
+```bash
+python CabCollector.py --rebuild --path [dump]\InnerPackage\Bundles\Windows 
+```
+- 样例：提取主人公模型资源
+
+由于cache保存在工作目录，需要在构造cache的工作目录执行
+```bash
+python CabCollector.py --dest "tl_wonder" --load "tl_wonder64f37b9e.bundle"
+```
