@@ -8,7 +8,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--rebuild', action='store_true', help='Rebuild cache')
 parser.add_argument('--path', default='.', help='Path to search for cabs when rebuilding cache')
 parser.add_argument('--dest', default='./packages', help='Destination folder')
-parser.add_argument('--load', default='', help='Input filename')
+parser.add_argument('load', nargs='*', default='', help='Input filenames')
 args = parser.parse_args()
 if not args.load and not args.rebuild:
     parser.print_help()
@@ -73,9 +73,11 @@ def topsort(cab_name : str,  result : list, sta = defaultdict(int)):
 if args.load:
     # Start from a virtual root node
     ROOT_KEY = '##root##'
-    env = UnityPy.load(args.load)
-    for cab in env.cabs:
-        cab_dependencies[ROOT_KEY].add(cab)
+    for f in args.load:
+        env = UnityPy.load(f)
+        for cab in env.cabs:
+            logger.info(f'Found cab: {cab} -> {f}')
+            cab_dependencies[ROOT_KEY].add(cab)
     result = list()
     topsort(ROOT_KEY, result)
 

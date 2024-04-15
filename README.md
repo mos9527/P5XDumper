@@ -33,9 +33,9 @@ pip install UnityPy
 ```bash
 python CabCollector.py --rebuild --path [dump]\InnerPackage\Bundles\Windows 
 ```
-- 样例：提取主人公模型资源
+- 样例：提取人物模型资源
 
 由于cache保存在工作目录，需要在构造cache的工作目录执行
 ```bash
-python CabCollector.py --dest "tl_wonder" --load "tl_wonder64f37b9e.bundle"
+python CabCollector.py --dest "models" "part_xxx_1.bundle" "part_xxx_2.bundle" "..."
 ```
